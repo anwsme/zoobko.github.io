@@ -37,3 +37,7 @@ a.framer-cHQo6:hover svg { fill: rgb(253, 208, 0) !important; }
 .site-cursor.is-on { opacity: 1; }
 .site-cursor__tick { position: absolute; background: #fc0001; }
 .site-cursor__dot { position: absolute; left: 27px; top: 27px; width: 10px; height: 10px; border-radius: 30px; background: #fc0001; }
+
+/* The particle video in the About section sits above everything (it is blended with "exclusion",
+   so the black parts are invisible and the specks show over the photos and the red panel) */
+.framer-r2jh4 .framer-p0hayn-container { z-index: 20; pointer-events: none; }
