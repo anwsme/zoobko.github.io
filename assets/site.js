@@ -106,7 +106,32 @@
     });
   }
 
+  // ---------------------------------------------------------------- custom cursor (red crosshair)
+  function initCursor() {
+    if (!window.matchMedia || !matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    var el = doc.createElement("div");
+    el.className = "site-cursor";
+    el.setAttribute("aria-hidden", "true");
+    el.innerHTML = '<i class="site-cursor__tick" style="left:30px;top:0;width:4px;height:11px"></i>' +
+      '<i class="site-cursor__tick" style="left:30px;bottom:0;width:4px;height:11px"></i>' +
+      '<i class="site-cursor__tick" style="top:30px;left:0;width:11px;height:4px"></i>' +
+      '<i class="site-cursor__tick" style="top:30px;right:0;width:11px;height:4px"></i>' +
+      '<i class="site-cursor__dot"></i>';
+    doc.body.appendChild(el);
+    var x = 0, y = 0, queued = false;
+    function paint() { queued = false; el.style.transform = "translate(" + (x - 32) + "px," + (y - 32) + "px)"; }
+    doc.addEventListener("pointermove", function (e) {
+      if (e.pointerType === "touch") return;
+      x = e.clientX; y = e.clientY;
+      if (!el.classList.contains("is-on")) { el.classList.add("is-on"); doc.documentElement.classList.add("site-cursor-on"); }
+      if (!queued) { queued = true; requestAnimationFrame(paint); }
+    }, { passive: true });
+    doc.documentElement.addEventListener("pointerleave", function () { el.classList.remove("is-on"); });
+    doc.documentElement.addEventListener("pointerenter", function () { el.classList.add("is-on"); });
+  }
+
   function init() {
+    initCursor();
     initShowreel();
     initAppear();
     initParallax();
