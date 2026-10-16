@@ -13,7 +13,7 @@ Static copy of the zoobko.com site (portfolio of Tetiana Zoobko, motion designer
 The page was exported from Framer, and its JavaScript engine, analytics (Google Analytics, Framer events),
 editor bar and generator tags have been removed (do not re-add them). The design CSS is inline in
 `index.html`'s `<style>`. Behaviour lives in two small files:
-- `assets/site.js` - entrance animation of the hero text, hero parallax, reveal-on-scroll, video autoplay,
+- `assets/site.js` - entrance animation of the hero text, hero parallax, reveal-on-scroll, video autoplay, particle overlay (canvas, black = transparent),
   click-to-load YouTube showreel, custom crosshair cursor (mouse devices only).
 - `assets/site.css` - blinking "Available for new projects", card and Instagram hover states.
 

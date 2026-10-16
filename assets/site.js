@@ -130,7 +130,50 @@
     doc.documentElement.addEventListener("pointerenter", function () { el.classList.add("is-on"); });
   }
 
+  // ---------------------------------------------------------------- particle overlay (About section)
+  // The dark particle video was blended over the page with mix-blend-mode on a <video>. Some browsers
+  // (Safari, some GPUs) ignore blend modes on video and paint it as an opaque black box that hides the
+  // photos. So the frames are drawn onto a canvas with brightness turned into transparency: black is
+  // see-through, the specks stay, in every browser.
+  function initParticles() {
+    all(".framer-p0hayn-container video").forEach(function (video) {
+      if (!video.getClientRects().length || reduce) return;
+      var box = video.parentElement;
+      var canvas = doc.createElement("canvas");
+      var W = 480, H = 270;
+      canvas.width = W; canvas.height = H;
+      canvas.className = "site-particles";
+      canvas.setAttribute("aria-hidden", "true");
+      var ctx = canvas.getContext("2d", { willReadFrequently: true });
+      if (!ctx) return;
+      box.appendChild(canvas);
+      video.style.opacity = "0";
+      var running = false;
+      function frame() {
+        if (!running) return;
+        if (video.readyState >= 2) {
+          ctx.drawImage(video, 0, 0, W, H);
+          var img = ctx.getImageData(0, 0, W, H), d = img.data;
+          for (var i = 0; i < d.length; i += 4) {
+            var l = (d[i] + d[i + 1] + d[i + 2]) / 3;
+            d[i] = d[i + 1] = d[i + 2] = 255;
+            d[i + 3] = l;
+          }
+          ctx.putImageData(img, 0, 0);
+        }
+        requestAnimationFrame(frame);
+      }
+      if (!("IntersectionObserver" in window)) return;
+      new IntersectionObserver(function (entries) {
+        var on = entries[0].isIntersecting;
+        if (on && !running) { running = true; requestAnimationFrame(frame); }
+        else if (!on) running = false;
+      }).observe(box);
+    });
+  }
+
   function init() {
+    initParticles();
     initCursor();
     initShowreel();
     initAppear();
