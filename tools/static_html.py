@@ -2,8 +2,8 @@
 import re
 
 ASSETS = (
-    ('/assets/site.css', '<link rel="stylesheet" href="/assets/site.css">'),
-    ('/assets/site.js', '<script defer src="/assets/site.js"></script>'),
+    ('assets/site.css', '<link rel="stylesheet" href="assets/site.css">'),
+    ('assets/site.js', '<script defer src="assets/site.js"></script>'),
 )
 INSTAGRAM = (
     '<svg xmlns="http://www.w3.org/2000/svg" focusable="false" viewBox="0 0 24 24" aria-label="Instagram" '
@@ -16,7 +16,7 @@ _meta = re.compile(r'<meta name="(?:generator|framer-search-index[^"]*)"[^>]*>',
 
 
 def strip(html):
-    html = _script.sub(lambda m: m.group(0) if re.search(r'src="/assets/', m.group(0)) else "", html)
+    html = _script.sub(lambda m: m.group(0) if re.search(r'src="assets/', m.group(0)) else "", html)
     html = _link.sub("", html)
     html = _meta.sub("", html)
     html = re.sub(r"<!--.*?-->", "", html, flags=re.S)
@@ -28,5 +28,6 @@ def strip(html):
     # the Instagram icon is drawn client-side by Framer, so the export has an empty box
     html = html.replace('name="Instagram" style="transform:translateX(-50%)"><div style="display:contents"></div>',
                         'name="Instagram" style="transform:translateX(-50%)"><div style="display:contents">' + INSTAGRAM + "</div>")
+    html = re.sub(r'(?<=[="(\'])/(_ext|assets)/', r'\1/', html)  # relative, so it also works under a sub-path
     missing = "".join(tag for path, tag in ASSETS if path not in html)
     return html.replace("</head>", missing + "</head>", 1) if missing else html
