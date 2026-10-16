@@ -133,9 +133,25 @@
       el.classList.add("is-on");
       root.classList.add("site-cursor-on"); // hides the system cursor only while the crosshair is shown
     }, { passive: true });
+    // the bullet hole stays where you pressed for 3 s, then fades out over 2 s
+    function leaveHole(e) {
+      var hole = doc.createElement("img");
+      hole.className = "site-hole";
+      hole.src = "_ext/media/bullet.webp";
+      hole.alt = "";
+      hole.setAttribute("aria-hidden", "true");
+      hole.style.left = (e.clientX + window.scrollX - 50) + "px";
+      hole.style.top = (e.clientY + window.scrollY - 50) + "px";
+      doc.body.appendChild(hole);
+      setTimeout(function () {
+        hole.classList.add("is-fading");
+        setTimeout(function () { hole.remove(); }, 2000);
+      }, 3000);
+    }
     doc.addEventListener("pointerdown", function (e) {
       clearTimeout(hideTimer);
       move(e);
+      if (!reduce) leaveHole(e);
       el.classList.add("is-down");
       if (e.pointerType === "touch") { el.classList.add("is-on", "is-touch"); paint(); }
     }, { passive: true });

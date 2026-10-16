@@ -53,6 +53,11 @@ html, html * { -webkit-user-select: none; user-select: none; -webkit-touch-callo
   opacity: 0;
 }
 .site-cursor.is-down .site-cursor__bullet { opacity: 1; }
+.site-hole {
+  position: absolute; z-index: 2147483646; width: 100px; height: 100px; max-width: none;
+  pointer-events: none; opacity: 1; transition: opacity 2s linear; -webkit-user-drag: none;
+}
+.site-hole.is-fading { opacity: 0; }
 .site-cursor__tick { position: absolute; background: #fc0001; }
 .site-cursor__dot { position: absolute; left: 27px; top: 27px; width: 10px; height: 10px; border-radius: 30px; background: #fc0001; }
 
