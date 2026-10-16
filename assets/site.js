@@ -118,7 +118,8 @@
       '<i class="site-cursor__tick" style="left:30px;bottom:0;width:4px;height:11px"></i>' +
       '<i class="site-cursor__tick" style="top:30px;left:0;width:11px;height:4px"></i>' +
       '<i class="site-cursor__tick" style="top:30px;right:0;width:11px;height:4px"></i>' +
-      '<i class="site-cursor__dot"></i></div>';
+      '<i class="site-cursor__dot"></i></div>' +
+      '<img class="site-cursor__bullet" src="_ext/media/bullet.webp" alt="" width="100" height="100">';
     doc.body.appendChild(el);
     var root = doc.documentElement, x = 0, y = 0, queued = false, hideTimer = 0;
     function paint() { queued = false; el.style.transform = "translate(" + (x - 32) + "px," + (y - 32) + "px)"; }

@@ -28,8 +28,11 @@ a.framer-cHQo6:hover svg { fill: rgb(253, 208, 0) !important; }
 @media (prefers-reduced-motion: reduce) { .framer-kxwzfi { animation: none; } }
 
 /* Custom cursor: a 64px red ring with four ticks and a centre dot (built by assets/site.js).
-   The outer box follows the pointer; the body squeezes on press / tap. */
-.site-cursor-on, .site-cursor-on * { cursor: none !important; }
+   The outer box follows the pointer; on press / tap it becomes a bullet hole.
+   With a mouse the system cursor is hidden everywhere from the start (not only after the first move). */
+@media (hover: hover) and (pointer: fine) {
+  html, html *, html *::before, html *::after { cursor: none !important; }
+}
 .site-cursor {
   position: fixed; top: 0; left: 0; z-index: 2147483647; width: 64px; height: 64px;
   pointer-events: none; opacity: 0; transition: opacity .15s; will-change: transform;
@@ -40,7 +43,13 @@ a.framer-cHQo6:hover svg { fill: rgb(253, 208, 0) !important; }
   position: absolute; inset: 0; border-radius: 120px; box-shadow: inset 0 0 0 4px #fc0001;
   transition: transform .15s cubic-bezier(.2, .9, .25, 1);
 }
-.site-cursor.is-down .site-cursor__body { transform: scale(.7); }
+.site-cursor.is-down .site-cursor__body { opacity: 0; transition: none; }
+/* on press (and tap) the crosshair turns into a bullet hole */
+.site-cursor__bullet {
+  position: absolute; left: -18px; top: -18px; width: 100px; height: 100px; max-width: none;
+  opacity: 0; transform: scale(1.35); transition: none;
+}
+.site-cursor.is-down .site-cursor__bullet { opacity: 1; transform: none; transition: transform .12s cubic-bezier(.2, .9, .25, 1); }
 .site-cursor__tick { position: absolute; background: #fc0001; }
 .site-cursor__dot { position: absolute; left: 27px; top: 27px; width: 10px; height: 10px; border-radius: 30px; background: #fc0001; }
 
