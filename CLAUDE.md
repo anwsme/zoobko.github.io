@@ -14,7 +14,7 @@ The page was exported from Framer, and its JavaScript engine, analytics (Google 
 editor bar and generator tags have been removed (do not re-add them). The design CSS is inline in
 `index.html`'s `<style>`. Behaviour lives in two small files:
 - `assets/site.js` - entrance animation of the hero text, hero parallax, reveal-on-scroll, video autoplay, particle overlay (canvas, black = transparent),
-  click-to-load YouTube showreel, custom crosshair cursor (mouse devices only).
+  click-to-load YouTube showreel, custom crosshair cursor (follows the mouse, pops in on tap, squeezes on press).
 - `assets/site.css` - blinking "Available for new projects", card and Instagram hover states.
 
 ## Fonts
