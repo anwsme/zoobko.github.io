@@ -1,0 +1,28 @@
+/* Behaviour styles for assets/site.js and the hover states of the page */
+
+/* "Available for new projects" blinks: one second on, one second off */
+@keyframes site-blink { 0%, 49.99% { opacity: 1; } 50%, 100% { opacity: 0; } }
+.framer-kxwzfi { animation: site-blink 2s linear infinite; }
+
+/* Project cards: yellow frame, slight zoom and the "Open website" button fades in */
+a.framer-MNDWa > :first-child,
+a.framer-qZJOY > :first-child { transition: transform .3s cubic-bezier(.2,.9,.25,1), box-shadow .3s; }
+a.framer-MNDWa:hover > :first-child,
+a.framer-qZJOY:hover > :first-child {
+  /* !important: the page carries these as inline styles */
+  --border-color: rgb(255, 221, 53) !important;
+  --border-top-width: 10px !important; --border-right-width: 10px !important;
+  --border-bottom-width: 10px !important; --border-left-width: 10px !important;
+  box-shadow: 0 3px 0 4px #000 !important;
+  transform: scale(1.05) !important;
+}
+a.framer-MNDWa .framer-1i0291h,
+a.framer-qZJOY .framer-1i0291h { transition: opacity .25s; }
+a.framer-MNDWa:hover .framer-1i0291h,
+a.framer-qZJOY:hover .framer-1i0291h { opacity: 1 !important; box-shadow: 0 3px 0 4px #000 !important; }
+
+/* Instagram icon */
+a.framer-cHQo6 svg { transition: fill .2s; }
+a.framer-cHQo6:hover svg { fill: rgb(253, 208, 0) !important; }
+
+@media (prefers-reduced-motion: reduce) { .framer-kxwzfi { animation: none; } }
