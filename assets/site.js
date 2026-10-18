@@ -208,7 +208,14 @@
     });
   }
 
+  // footer year: always the current year (the HTML carries a static fallback)
+  function initYear() {
+    var y = String(new Date().getFullYear());
+    all("[data-year]").forEach(function (el) { el.textContent = y; });
+  }
+
   function init() {
+    initYear();
     initParticles();
     initCursor();
     initShowreel();
