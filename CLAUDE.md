@@ -1,7 +1,7 @@
 # zoobko.com
 
 Static copy of the zoobko.com site (portfolio of Tetiana Zoobko, motion designer), served from this repo
-(GitHub Pages). No build step. Pages: `index.html` (Zoobko) and `thetreasure/index.html` (The Treasure, an art project; a copy of
+(GitHub Pages). No build step. Pages: `index.html` (Zoobko), `geishanft/index.html` and `thetreasure/index.html` (The Treasure, an art project; a copy of
 thetreasure.in.ua, home page only).
 
 ## Images and media
@@ -28,6 +28,17 @@ thetreasure.in.ua is still on Framer (not redirected). Regenerate with
 `python3 tools/localize_page.py https://thetreasure.in.ua/ thetreasure/index.html` (image display widths are in
 `tools/widths_thetreasure.json`; the 50 dioramas are listed in `tools/cities_thetreasure.json` and in
 `assets/thetreasure.js`); do that only if you want to re-import it, then re-check `assets/thetreasure.js`.
+
+## Geisha NFT (`/geishanft/`)
+Copy of the old WordPress + Semplice page "Geisha NFT project on Binance Smart Chain" (from a cPanel backup,
+run locally in Docker and rendered). No WordPress, Semplice, jQuery or GSAP runtime: the server-rendered HTML,
+the page's generated CSS (`assets/geishanft-page.css`, `assets/geishanft-theme.css`) and `assets/geishanft.js`,
+which restores text sizes per breakpoint, the full-height cover with parallax and mouse tilt, the navbar over the
+cover, the overlay menu (Zoobko / Geisha NFT only), back-to-top and the 140 scroll reveals. The reveals come
+from the page's GSAP timelines as data in `assets/geishanft-motion.js` (generated), with their start state baked
+into the CSS. Pictures are in `_ext/media/geishanft/` (WebP, display width x2). Regenerate with
+`python3 tools/localize_wp.py http://localhost:8082/geishaproject <backup>/wp-content geishanft`; the backup
+itself (database, password hashes, SSL keys, mail) never goes into this repo.
 
 ## Fonts
 Self-hosted in `_ext/fonts/` (Inter Display 400/500/700 with Latin, Latin-ext, Cyrillic and Greek subsets,

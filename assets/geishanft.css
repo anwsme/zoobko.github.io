@@ -1,0 +1,6 @@
+/* Small additions for assets/geishanft.js (the page's own styles are in geishanft-page.css) */
+.semplice-cover { height: 100vh; }
+[hidden] { display: none !important; }
+@media (prefers-reduced-motion: reduce) { #content-holder * { transition: none !important; } }
+/* the overlay menu is closed until assets/geishanft.js opens it */
+#overlay-menu { display: none; opacity: 0; z-index: -1; }
