@@ -86,10 +86,13 @@ html, html * { -webkit-user-select: none; user-select: none; -webkit-touch-callo
    line boxes, so the tops and tails of the big letters (and shadows) were cut off ("Starring", "From Ukraine",
    "Booking", the list of skills, card captions, the footer line, the Instagram icon). The page wrapper still clips
    anything that slides in from the side, so there is no horizontal scrolling; the hero and slide boxes that hold the
-   background video keep their clip. */
-.framer-hnokwb, .framer-17pvh7o, .framer-156mtfd, .framer-1l9rjfz, .framer-oa7l6m, .framer-mnnjv7,
+   background video keep their clip (clipping the hero made its background blink: it is blended and animated). */
+.framer-156mtfd, .framer-1l9rjfz, .framer-oa7l6m, .framer-mnnjv7,
 .framer-2yxvmi, .framer-1xmtz37, .framer-1tvwjua, .framer-9fjp8g,
 .framer-6hbnui, a.framer-cHQo6 { overflow: visible !important; }
 
 /* Stacking, bottom to top: page content, bullet holes (40), the menu bar (50), popups (100), the crosshair cursor. */
 .framer-nps7m0 { z-index: 50 !important; }
+
+/* "From Ukraine" (hero): the box keeps its clip, but gets room below the line so the tail of the "g" is not cut */
+.framer-17pvh7o { padding-bottom: 24px !important; margin-bottom: -24px; }
