@@ -100,7 +100,7 @@ html, html * { -webkit-user-select: none; user-select: none; -webkit-touch-callo
 /* Menu bar: while scrolling down it shrinks to a black strip as tall as the page padding (--menu-strip); its content
    fades out. --menu-full is the normal height (both set by assets/site.js). */
 .framer-nps7m0 {
-  height: var(--menu-full, 80px) !important; overflow: hidden; background: #000;
+  height: var(--menu-full, 80px) !important; background: #000;
   transition: height .4s cubic-bezier(.2, .9, .25, 1);
 }
 .framer-nps7m0 * { transition: opacity .25s ease; }
@@ -108,3 +108,13 @@ html, html * { -webkit-user-select: none; user-select: none; -webkit-touch-callo
 .framer-nps7m0.is-collapsed:not(:hover) * { opacity: 0 !important; pointer-events: none; }
 .framer-nps7m0.is-collapsed:hover { height: var(--menu-full, 80px) !important; }
 @media (prefers-reduced-motion: reduce) { .framer-nps7m0, .framer-nps7m0 * { transition: none; } }
+
+/* While the bar is a thin strip, the page below it keeps the rounded corners it has in the default state: the strip
+   gets inverted corners (16px, like the panels) at its lower left and right. */
+.framer-nps7m0::before, .framer-nps7m0::after {
+  content: ""; position: absolute; top: 100%; width: 16px; height: 16px; pointer-events: none;
+  opacity: 0; transition: opacity .3s ease;
+}
+.framer-nps7m0::before { left: 0; background: radial-gradient(circle at 100% 100%, transparent 15.5px, #000 16px); }
+.framer-nps7m0::after { right: 0; background: radial-gradient(circle at 0 100%, transparent 15.5px, #000 16px); }
+.framer-nps7m0.is-collapsed:not(:hover)::before, .framer-nps7m0.is-collapsed:not(:hover)::after { opacity: 1; }
