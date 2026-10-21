@@ -110,11 +110,12 @@ html, html * { -webkit-user-select: none; user-select: none; -webkit-touch-callo
 @media (prefers-reduced-motion: reduce) { .framer-nps7m0, .framer-nps7m0 * { transition: none; } }
 
 /* While the bar is a thin strip, the page below it keeps the rounded corners it has in the default state: the strip
-   gets inverted corners (16px, like the panels) at its lower left and right. */
+   gets inverted corners (16px, like the panels): a black square with a quarter circle cut out, attached under the strip
+   where the panels start (one side padding in from the left and right edge). */
 .framer-nps7m0::before, .framer-nps7m0::after {
   content: ""; position: absolute; top: 100%; width: 16px; height: 16px; pointer-events: none;
   opacity: 0; transition: opacity .3s ease;
 }
-.framer-nps7m0::before { left: 0; background: radial-gradient(circle at 100% 100%, transparent 15.5px, #000 16px); }
-.framer-nps7m0::after { right: 0; background: radial-gradient(circle at 0 100%, transparent 15.5px, #000 16px); }
+.framer-nps7m0::before { left: var(--menu-strip, 16px); background: radial-gradient(circle at 100% 100%, transparent 15.5px, #000 16px); }
+.framer-nps7m0::after { right: var(--menu-strip, 16px); background: radial-gradient(circle at 0 100%, transparent 15.5px, #000 16px); }
 .framer-nps7m0.is-collapsed:not(:hover)::before, .framer-nps7m0.is-collapsed:not(:hover)::after { opacity: 1; }
