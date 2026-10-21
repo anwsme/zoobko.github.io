@@ -103,9 +103,8 @@ html, html * { -webkit-user-select: none; user-select: none; -webkit-touch-callo
   height: var(--menu-full, 80px) !important; overflow: hidden; background: #000;
   transition: height .4s cubic-bezier(.2, .9, .25, 1);
 }
-.framer-nps7m0 > * { transition: opacity .25s ease; }
+.framer-nps7m0 * { transition: opacity .25s ease; }
 .framer-nps7m0.is-collapsed { height: var(--menu-strip, 16px) !important; }
-.framer-nps7m0.is-collapsed > * { opacity: 0; pointer-events: none; }
+.framer-nps7m0.is-collapsed:not(:hover) * { opacity: 0 !important; pointer-events: none; }
 .framer-nps7m0.is-collapsed:hover { height: var(--menu-full, 80px) !important; }
-.framer-nps7m0.is-collapsed:hover > * { opacity: 1; pointer-events: auto; }
-@media (prefers-reduced-motion: reduce) { .framer-nps7m0, .framer-nps7m0 > * { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .framer-nps7m0, .framer-nps7m0 * { transition: none; } }
