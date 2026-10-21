@@ -150,9 +150,10 @@
   function initMenuBar() {
     var bar = doc.querySelector(".framer-nps7m0");
     if (!bar) return;
-    var frame = all(".framer-12yubsj").filter(function (e) { return e.getClientRects().length; })[0];
     var last = window.scrollY, collapsed = false, ticking = false;
     function strip() { // the strip is as tall as the left padding of the page
+      // the side padding of the page = where the first panel starts; pick the layout that is showing right now
+      var frame = all(".framer-12yubsj").filter(function (e) { return e.getClientRects().length; })[0];
       var left = frame ? frame.getBoundingClientRect().left : 16;
       bar.style.setProperty("--menu-strip", Math.max(Math.round(left), 8) + "px");
       if (!collapsed) {                       // normal height of the bar (it differs between screen sizes)
