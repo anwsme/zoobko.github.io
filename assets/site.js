@@ -52,22 +52,32 @@
   }
 
   // ---------------------------------------------------------------- reveal on scroll (once)
+  // The element itself is moved out of place (and sometimes clipped by its container) until it is revealed, so
+  // the watcher sits on the nearest ancestor that has a box of its own and is never moved.
   function initReveal() {
     var targets = all('[style*="will-change"]').filter(function (el) {
       return /(^|;)\s*opacity:\s*0\s*(;|$)/.test(el.getAttribute("style") || "");
     });
     if (!targets.length) return;
     if (reduce || !("IntersectionObserver" in window)) { targets.forEach(show); return; }
+    var groups = new Map();
+    targets.forEach(function (el) {
+      var anchor = el.parentElement;
+      while (anchor && anchor !== doc.body && !anchor.getClientRects().length) anchor = anchor.parentElement;
+      if (!groups.has(anchor)) groups.set(anchor, []);
+      groups.get(anchor).push(el);
+    });
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
-        var el = e.target;
-        io.unobserve(el);
-        el.style.transition = "opacity .8s cubic-bezier(.2,.9,.25,1), transform .8s cubic-bezier(.2,.9,.25,1)";
-        show(el);
+        io.unobserve(e.target);
+        groups.get(e.target).forEach(function (el) {
+          el.style.transition = "opacity .8s cubic-bezier(.2,.9,.25,1), transform .8s cubic-bezier(.2,.9,.25,1)";
+          show(el);
+        });
       });
-    }, { threshold: 0.2 });
-    targets.forEach(function (el) { io.observe(el); });
+    }, { threshold: 0.1 });
+    groups.forEach(function (els, anchor) { io.observe(anchor); });
   }
 
   // ---------------------------------------------------------------- videos play while in view
