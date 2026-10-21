@@ -22,3 +22,16 @@
 }
 .tt-lightbox__box iframe { display: block; width: 100%; height: 100%; border: 0; }
 @keyframes tt-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* Diorama cards: soft light across the card, the name plate rises and the glass dome glows */
+.framer-F8Nyb { transition: background .35s ease; }
+.framer-F8Nyb .framer-ytgmrv { transition: opacity .35s ease, bottom .35s ease; }
+.framer-F8Nyb .framer-1lzl80i { transition: opacity .35s ease; }
+.framer-F8Nyb:hover { background: linear-gradient(126deg, rgba(255, 255, 255, 0) -16%, rgba(255, 255, 255, .08) 100%) !important; }
+.framer-F8Nyb:hover .framer-ytgmrv { opacity: 1 !important; bottom: 36px !important; }
+.framer-F8Nyb:hover .framer-1lzl80i { opacity: .33 !important; }
+/* the "fixing an error" note on a card flickers */
+@keyframes tt-flicker { from { opacity: .15; } to { opacity: .49; } }
+.framer-1o8ve22 { animation: tt-flicker .45s linear infinite alternate; }
+@media (prefers-reduced-motion: reduce) { .framer-1o8ve22 { animation: none; } }
+[hidden] { display: none !important; }

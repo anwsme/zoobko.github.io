@@ -20,12 +20,14 @@ editor bar and generator tags have been removed (do not re-add them). The design
 
 ## The Treasure (`/thetreasure/`)
 Same approach as the main page (Framer runtime removed, plain HTML + CSS). Its behaviour is in `assets/thetreasure.js`
-(stack of photo cards that collapses on scroll, photo slideshow, trailer lightbox with the YouTube player, header
-glow, video autoplay) and `assets/thetreasure.css` (pulsing frames, lightbox). Links to the pages of the original site
+(stack of photo cards that collapses on scroll, measured in card heights so it works at any screen size; photo
+slideshow; the diorama list with its "Показати більше" button, which adds the remaining cities 12 / 8 / 5 at a time;
+trailer lightbox with the YouTube player; header glow; video autoplay) and `assets/thetreasure.css` (pulsing frames, lightbox). Links to the pages of the original site
 (places, gallery, the ~50 cities) were removed on purpose: only this one page lives here. The domain
 thetreasure.in.ua is still on Framer (not redirected). Regenerate with
 `python3 tools/localize_page.py https://thetreasure.in.ua/ thetreasure/index.html` (image display widths are in
-`tools/widths_thetreasure.json`); do that only if you want to re-import it, then re-check `assets/thetreasure.js`.
+`tools/widths_thetreasure.json`; the 50 dioramas are listed in `tools/cities_thetreasure.json` and in
+`assets/thetreasure.js`); do that only if you want to re-import it, then re-check `assets/thetreasure.js`.
 
 ## Fonts
 Self-hosted in `_ext/fonts/` (Inter Display 400/500/700 with Latin, Latin-ext, Cyrillic and Greek subsets,

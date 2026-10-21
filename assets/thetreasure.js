@@ -12,12 +12,14 @@
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // ---------------------------------------------------------------- stack of photo cards ("Idea" section)
-  // Four 800px cards lie one below the other. While the block scrolls past, the cards slide down onto the
-  // last one: [translateY from, to, opacity from, to] per card, over 800px of scrolling.
+  // Four square cards lie one below the other. While the block scrolls past, the cards slide down onto the
+  // last one. Everything is measured in card heights (H), so it behaves the same at any screen size:
+  // per card [translateY from, to (in H), opacity from, to]; the effect starts when the block's top is H above
+  // the bottom edge of the screen and lasts H of scrolling.
   var CARDS = [
-    ["#bottom-3", 400, 800, 1, 1],
-    ["#bottom-2", 0, 400, 0.25, 1],
-    ["#bottom-2-5", 0, 194, 1, 1],
+    ["#bottom-3", 0.5, 1, 1, 1],
+    ["#bottom-2", 0, 0.5, 0.25, 1],
+    ["#bottom-2-5", 0, 0.2425, 1, 1],
     [".framer-1e2yp86", 0, 0, 0, 1]
   ];
   function initCards() {
@@ -27,19 +29,16 @@
     if (cards.length < CARDS.length) return;
     var block = cards[0].el.parentElement; // the "Animation" block the cards sit in
     var ticking = false;
-    function apply(p) {
+    function update() {
+      ticking = false;
+      var H = cards[1].el.offsetHeight || 800;
+      var top = block.getBoundingClientRect().top;
+      var p = reduce ? 1 : Math.min(Math.max((Math.max(window.innerHeight - H, 0) - top) / H, 0), 1);
       cards.forEach(function (x) {
-        var c = x.c, ty = c[1] + (c[2] - c[1]) * p, op = c[3] + (c[4] - c[3]) * p;
+        var c = x.c, ty = (c[1] + (c[2] - c[1]) * p) * H, op = c[3] + (c[4] - c[3]) * p;
         x.el.style.transform = "perspective(1200px)" + (ty ? " translateY(" + ty + "px)" : "");
         x.el.style.opacity = String(op);
       });
-    }
-    function update() {
-      ticking = false;
-      // starts when the block is 800px above the bottom of the viewport, ends 800px of scrolling later
-      var top = block.getBoundingClientRect().top;
-      var start = Math.max(window.innerHeight - 800, 0);
-      apply(reduce ? 1 : Math.min(Math.max((start - top) / 800, 0), 1));
     }
     window.addEventListener("scroll", function () {
       if (!ticking) { ticking = true; requestAnimationFrame(update); }
@@ -85,6 +84,53 @@
         }
       }, 1500);
       window.addEventListener("resize", function () { place(false); });
+    });
+  }
+
+  // ---------------------------------------------------------------- list of dioramas
+  // Each breakpoint's markup holds the first 12 / 8 / 5 cards. "Показати більше" adds that many more until all
+  // 50 are shown. [name, picture id in _ext/media, optional note shown on the card]
+  var CITIES = [["Авдіївка","TnyMH0GLuUYRZyJK7fezGh6siys"],["Бахмут","lV1UNREmT6xbDtnwM7BQHM62irU"],["Бердянськ","jzgG7VjDhf8QuZQzU6QKvE5Yn0"],["Бородянка","C3oCEmbXjr769gRh2jj3XD2AdOo"],["Буча","OuITkYzC5dpYD5Rvtu4jwRcM8A"],["Вінниця","M2TftvkNrCVHSKaLFdLwGeaDR8"],["Волноваха","emtBlHi2bSCw51Nmi3xjY8VqpSs"],["Вугледар","ptEtEMXUGJgyofsuGOFg1cJXwPo"],["Дніпро","yOS9q1A5dVhFWzdL4YywFs8Lfg"],["Енергодар","olBlJtIcOei5lzdV3TaDdlRzxo"],["Запоріжжя","EiT39xkzHPuFeoIGjx5ck17yF1g"],["Острів Зміїний","Z4kMuQoD2vTIz0QPUsM0N1LlY"],["Іванків","ElZSFRWm54bOAtpp5zDjNC8","Виправляємо помилку"],["Ізюм","tJOSh44BuKbv0EVmTvT3DuUmYn0"],["Ірпінь","zKB7rdasmrgz2e8BviK83WWwNTU"],["Київ","6BBgDXuSqA8bt5nqsQ5ApqQ9uw"],["Краматорськ","YkodcIv6SPhKLFYBAAzBIHQoA"],["Кременчук","WAblCylEzo4nCc0jN3KJ1Yuks"],["Кремінна","32VP5AM3RcCb41ADNoEq7SWds4"],["Кривий Ріг","J4RZP5tM2pcKMhg00t9JJPtvFY"],["Куп'янськ","pmIH1Ye5k7wELVJb9n4DDhB8UE"],["Лиман","GgbJb6qa2JsYum9ODcvl8a9FJHQ"],["Лисичанськ","tbfV2N6K2BBZp4ggqXU99dobD6A"],["Макарів","GMktGhRTwuTM7iGUZ54s7PJ21o"],["Маріуполь","irvmLmfDYZRSycIekHkKrgVjWw"],["Мар'їнка","jkooU1tPDHZl9sgs44o75PlcM"],["Мелітополь","uTGUOkaPSRmjIKDWdQ2AQp366M"],["Миколаїв","9Tey9tyWq0JTyFRE4BYXi1EYk"],["Мрія","Mje0UrBLfMA5lzCak679fEXDw"],["Нікополь","e275GiV2p3KuramIYKY8DYZlRqo"],["Нова Каховка","mCv052XYpcL5Ug6ySDwXrrvSQFI"],["Охтирка","S5LxIY3NhwiuQVzD9rId5lIqvIU"],["Павлоград","RGxGvXlhEZQw9PoYc8fBYhoayI"],["Пологи","0Wnkkx7N6gRbfhMCnpqvaS4v28"],["Попасна","a4yWfnme1pkhpPYz2S6RadSC6E"],["Рубіжне","dXq3WPJklwxpoYkPYceg7taSrQI"],["Сватове","MeqT80BiwuFsWv9aaKB6fcxA"],["Северодонецьк","3ZUCtKkYEjjgRFVdhaFHlt3ZdM"],["Соледар","Q858KlOVgDNQJpdioC0LlTR0wY"],["Суми","JfjrkzV36R7pAo6Y7RBbqVTAac"],["Тростянець","BpAwtRjc49xQh9D7iYOnuna4qnI"],["Токмак","otuMmarVsfJljKiHpvfF7zIyo"],["Харків","zBRzbFxFqgvyvASR9mj46oRgiag"],["Херсон","TAuwNFdpd41zs3Rm33Wr263f1w"],["Чернігів","oQo1UIEAFVS85Hdl5s4oqDG3hXc"],["Чугуїв","lqKe4mcCzC7rNtbHBoYTYc2esj0"],["Щастя","dLbgOzkkSmdkOUmIywsRtmSScY"],["Донецьк","bDHD1ZDqipCtf4b4fRwfYAYcfgM"],["Луганськ","a4S7VgkATk4QRz0n1MbHk4hUWI"],["Крим","IQTeaRH3kHjBQMVRWGcRquYs"]];
+  function initCities() {
+    all("main").forEach(function (main) {
+      all(":scope > .ssr-variant", main).forEach(function (variant) {
+        var wraps = all(":scope > *", variant).filter(function (w) { return w.querySelector('[data-framer-name="City"]'); });
+        if (!wraps.length) return;
+        var button = all("h5", variant).filter(function (h) { return /Показати більше/.test(h.textContent); })[0];
+        var more = button; // the row with the placeholder frames and the button
+        while (more && more.parentElement !== variant) more = more.parentElement;
+        var step = wraps.length, extra = [], shown = 0;
+        var sample = wraps[0].querySelector("img");
+        var dir = sample.getAttribute("src").replace(/[^\/]*$/, "");
+        CITIES.slice(step).forEach(function (c) {
+          var w = wraps[0].cloneNode(true);
+          w.hidden = true;
+          var imgs = all("img", w);
+          imgs[0].src = dir + c[1] + ".webp";
+          imgs[0].loading = "lazy";
+          imgs[0].alt = c[0];
+          all("p", w).forEach(function (p) { if (p.textContent.trim() === CITIES[0][0]) p.textContent = c[0]; });
+          var note = w.querySelector(".framer-1o8ve22 p");
+          if (note) note.textContent = c[2] || "";
+          variant.insertBefore(w, more || null);
+          extra.push(w);
+        });
+        if (!button || !more) return;
+        var trigger = button.closest("[data-highlight]") || button;
+        trigger.setAttribute("role", "button");
+        trigger.setAttribute("tabindex", "0");
+        trigger.style.cursor = "pointer";
+        function reveal() {
+          extra.slice(shown, shown + step).forEach(function (w, i) {
+            w.hidden = false;
+            if (!reduce && w.animate) w.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 500, delay: i * 40, easing: "ease-out", fill: "backwards" });
+          });
+          shown += step;
+          if (shown >= extra.length) more.remove();
+        }
+        trigger.addEventListener("click", reveal);
+        trigger.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); reveal(); } });
+      });
     });
   }
 
@@ -172,6 +218,7 @@
     initHeader();
     initCards();
     initSlideshow();
+    initCities();
     initTrailer();
     initVideos();
   }

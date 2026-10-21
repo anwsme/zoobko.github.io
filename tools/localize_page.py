@@ -75,6 +75,13 @@ def local_image(i, ext):
             subprocess.run(cmd, check=True)
     return "/_ext/media/" + name
 
+# the diorama list loads 12 cards at a time on the original; the rest are added by assets/<page>.js, so fetch their pictures
+_cf = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cities_%s.json" % out.split("/")[0])
+if os.path.exists(_cf):
+    for _c in json.load(open(_cf)):
+        need[_c["image"]] = 832
+        local_image(_c["image"], _c["ext"])
+
 src = re.sub(r'\s(?:srcset|sizes)="[^"]*"', "", src)
 for u in sorted(set(re.findall(r"https://framerusercontent\.com/images/[A-Za-z0-9]+\.svg", src))):  # vector images stay as they are
     get(u, os.path.join(MEDIA, os.path.basename(u))); src = src.replace(u, "/_ext/media/" + os.path.basename(u))
