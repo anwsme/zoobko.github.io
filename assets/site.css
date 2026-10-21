@@ -69,3 +69,15 @@ html, html * { -webkit-user-select: none; user-select: none; -webkit-touch-callo
    show over the photos and the red panel, in every browser) */
 .framer-r2jh4 .framer-p0hayn-container { z-index: 20; pointer-events: none; mix-blend-mode: normal; }
 .site-particles { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; opacity: .55; }
+
+/* Project popups */
+.site-popup {
+  position: fixed; inset: 0; z-index: 100; display: grid; place-items: center;
+  background: rgba(51, 51, 51, .8); cursor: zoom-out; animation: site-popup-in .2s ease;
+}
+.site-popup__box {
+  width: min(95vw, calc((100vh - 32px) * 16 / 9)); aspect-ratio: 16 / 9;
+  border-radius: 16px; overflow: hidden; background: #000; cursor: default;
+}
+.site-popup__box iframe { display: block; width: 100%; height: 100%; border: 0; }
+@keyframes site-popup-in { from { opacity: 0; } to { opacity: 1; } }

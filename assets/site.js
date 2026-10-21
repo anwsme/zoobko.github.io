@@ -89,6 +89,51 @@
     vids.forEach(function (v) { v.muted = true; io.observe(v); });
   }
 
+  // ---------------------------------------------------------------- project popups (YouTube players)
+  // The cards without a link open their video in a popup, as on the original site: dark backdrop, 16:9 player
+  // with rounded corners, closed by a click on the backdrop or Escape.
+  var VIDEOS = {
+    "Fluix 3.0 B2B Commercial": "QF1y-u4yLnA",
+    "Melon Commercial": "E4Q9bluxp2o",
+    "The Voice of the Country": "K5Knev2PZ6g",
+    "Cannabis Loyalty Program for Dispensary": "4KCFeN84elc",
+    "Leopold Museum Vienna": "urTRmZ8BKi0",
+    "YaYo Commercial": "slvxIDbZYU4",
+    "Cook like a chief!": "FOnH_ibCE34",
+    "WAVES": "xqtBQwIpwVc"
+  };
+  function initPopups() {
+    var layer = null;
+    function close() {
+      if (!layer) return;
+      layer.remove(); layer = null;
+      doc.removeEventListener("keydown", onKey);
+    }
+    function onKey(e) { if (e.key === "Escape") close(); }
+    function open(id, title) {
+      close();
+      layer = doc.createElement("div");
+      layer.className = "site-popup";
+      layer.innerHTML = '<div class="site-popup__box"><iframe title="' + title.replace(/"/g, "") + '" allow="presentation; fullscreen; ' +
+        'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen src="https://www.youtube.com/embed/' + id +
+        '?iv_load_policy=3&rel=0&modestbranding=1&playsinline=1&autoplay=1&color=white"></iframe></div>';
+      layer.addEventListener("click", close);
+      doc.body.appendChild(layer);
+      doc.addEventListener("keydown", onKey);
+    }
+    all("a.framer-MNDWa").forEach(function (card) {
+      if (card.getAttribute("href")) return;
+      var title = "";
+      all("p", card).some(function (p) { var t = p.textContent.trim(); if (VIDEOS[t]) { title = t; return true; } return false; });
+      if (!title) return;
+      card.setAttribute("role", "button");
+      card.setAttribute("tabindex", "0");
+      card.style.cursor = "pointer";
+      card.addEventListener("click", function (e) { e.preventDefault(); open(VIDEOS[title], title); });
+      card.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(VIDEOS[title], title); } });
+    });
+  }
+
   // ---------------------------------------------------------------- showreel: the YouTube player loads on click
   function initShowreel() {
     all("article[role='presentation']").forEach(function (box) {
@@ -219,6 +264,7 @@
     initParticles();
     initCursor();
     initShowreel();
+    initPopups();
     initAppear();
     initParallax();
     initReveal();
