@@ -91,7 +91,7 @@ fonts_css = re.sub(r"url\((https://[^)]+\.woff2)\)", self_host, gcss)
 # ---------------------------------------------------------------- body
 body = src[src.index("<body"):]
 body = re.sub(r"<script\b.*?</script>", "", body, flags=re.S)
-body = re.sub(r'<div class="pswp".*?</div>\s*</div>\s*</div>\s*</div>\s*</div>', "", body, flags=re.S)  # photo viewer shell, unused
+body = re.sub(r'<div class="pswp__share-modal.*?(?=<div class="back-to-top")', "", body, flags=re.S)  # photo viewer markup (lightbox) left over after the page content, unused
 body = re.sub(r"<link\b[^>]*>|<!--.*?-->", "", body, flags=re.S)
 body = re.sub(r'\sdata-mce-[\w-]+="[^"]*"', "", body)                      # editor leftovers
 body = re.sub(r'\s(?:data-mce-selected)="[^"]*"', "", body)
