@@ -15,8 +15,8 @@ _link = re.compile(r'<link\b[^>]*rel="modulepreload"[^>]*>|<link\b[^>]*rel="prec
 _meta = re.compile(r'<meta name="(?:generator|framer-search-index[^"]*)"[^>]*>', re.I)
 
 
-def strip(html):
-    html = _script.sub(lambda m: m.group(0) if re.search(r'src="assets/', m.group(0)) else "", html)
+def strip(html, prefix="", assets=ASSETS):
+    html = _script.sub(lambda m: m.group(0) if re.search(r'src="(?:\.\./)*assets/', m.group(0)) else "", html)
     html = _link.sub("", html)
     html = _meta.sub("", html)
     html = re.sub(r"<!--.*?-->", "", html, flags=re.S)
@@ -28,6 +28,6 @@ def strip(html):
     # the Instagram icon is drawn client-side by Framer, so the export has an empty box
     html = html.replace('name="Instagram" style="transform:translateX(-50%)"><div style="display:contents"></div>',
                         'name="Instagram" style="transform:translateX(-50%)"><div style="display:contents">' + INSTAGRAM + "</div>")
-    html = re.sub(r'(?<=[="(\'])/(_ext|assets)/', r'\1/', html)  # relative, so it also works under a sub-path
-    missing = "".join(tag for path, tag in ASSETS if path not in html)
+    html = re.sub(r'(?<=[="(\'])/(_ext|assets)/', prefix + r'\1/', html)  # relative, so it also works under a sub-path
+    missing = "".join(tag.replace('="assets/', '="' + prefix + 'assets/') for path, tag in assets if path not in html)
     return html.replace("</head>", missing + "</head>", 1) if missing else html
