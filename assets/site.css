@@ -97,8 +97,15 @@ html, html * { -webkit-user-select: none; user-select: none; -webkit-touch-callo
 /* "From Ukraine" (hero): the box keeps its clip, but gets room below the line so the tail of the "g" is not cut */
 .framer-17pvh7o { padding-bottom: 24px !important; margin-bottom: -24px; }
 
-/* Menu bar: folds up into a strip (--menu-strip, set by assets/site.js) while scrolling down */
-.framer-nps7m0 { transition: transform .4s cubic-bezier(.2, .9, .25, 1); will-change: transform; }
-.framer-nps7m0.is-collapsed { transform: translateY(calc(-100% + var(--menu-strip, 16px))) !important; }
-.framer-nps7m0.is-collapsed:hover { transform: none !important; }
-@media (prefers-reduced-motion: reduce) { .framer-nps7m0 { transition: none; } }
+/* Menu bar: while scrolling down it shrinks to a black strip as tall as the page padding (--menu-strip); its content
+   fades out. --menu-full is the normal height (both set by assets/site.js). */
+.framer-nps7m0 {
+  height: var(--menu-full, 80px) !important; overflow: hidden; background: #000;
+  transition: height .4s cubic-bezier(.2, .9, .25, 1);
+}
+.framer-nps7m0 > * { transition: opacity .25s ease; }
+.framer-nps7m0.is-collapsed { height: var(--menu-strip, 16px) !important; }
+.framer-nps7m0.is-collapsed > * { opacity: 0; pointer-events: none; }
+.framer-nps7m0.is-collapsed:hover { height: var(--menu-full, 80px) !important; }
+.framer-nps7m0.is-collapsed:hover > * { opacity: 1; pointer-events: auto; }
+@media (prefers-reduced-motion: reduce) { .framer-nps7m0, .framer-nps7m0 > * { transition: none; } }

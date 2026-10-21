@@ -155,6 +155,12 @@
     function strip() { // the strip is as tall as the left padding of the page
       var left = frame ? frame.getBoundingClientRect().left : 16;
       bar.style.setProperty("--menu-strip", Math.max(Math.round(left), 8) + "px");
+      if (!collapsed) {                       // normal height of the bar (it differs between screen sizes)
+        bar.style.removeProperty("--menu-full");
+        var inner = all("*", bar).filter(function (e) { return e.getClientRects().length && e.getBoundingClientRect().height > 20; })[0];
+        var full = inner ? inner.getBoundingClientRect().height : 0;
+        if (full) bar.style.setProperty("--menu-full", Math.round(full) + "px");
+      }
     }
     function set(on) {
       if (on === collapsed) return;
