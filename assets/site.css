@@ -81,3 +81,12 @@ html, html * { -webkit-user-select: none; user-select: none; -webkit-touch-callo
 }
 .site-popup__box iframe { display: block; width: 100%; height: 100%; border: 0; }
 @keyframes site-popup-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* No clipping of text. The export wraps most text blocks in boxes with overflow:hidden that are exactly as tall as the
+   line boxes, so the tops and tails of the big letters (and shadows) were cut off ("Starring", "From Ukraine",
+   "Booking", the list of skills, card captions, the footer line, the Instagram icon). The page wrapper still clips
+   anything that slides in from the side, so there is no horizontal scrolling; the hero and slide boxes that hold the
+   background video keep their clip. */
+.framer-hnokwb, .framer-17pvh7o, .framer-156mtfd, .framer-1l9rjfz, .framer-oa7l6m, .framer-mnnjv7,
+.framer-2yxvmi, .framer-1xmtz37, .framer-1tvwjua, .framer-9fjp8g,
+.framer-6hbnui, a.framer-cHQo6 { overflow: visible !important; }
