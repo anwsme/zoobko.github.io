@@ -15,7 +15,7 @@ The page was exported from Framer, and its JavaScript engine, analytics (Google 
 editor bar and generator tags have been removed (do not re-add them). The design CSS is inline in
 `index.html`'s `<style>`. Behaviour lives in two small files:
 - `assets/site.js` - entrance animation of the hero text, hero parallax, reveal-on-scroll, video autoplay, particle overlay (canvas, black = transparent),
-  click-to-load YouTube showreel, the project popups (the 8 cards without a link open their YouTube video in a popup; ids are in `VIDEOS` in `assets/site.js`), custom crosshair cursor (follows the mouse, pops in on tap, leaves a bullet hole on press (3 s, then fades 2 s)).
+  click-to-load YouTube showreel, the menu bar that folds into a strip on scroll, the project popups (the 8 cards without a link open their YouTube video in a popup; ids are in `VIDEOS` in `assets/site.js`), custom crosshair cursor (follows the mouse, pops in on tap, leaves a bullet hole on press (3 s, then fades 2 s)).
 - `assets/site.css` - blinking "Available for new projects", card and Instagram hover states.
 
 ## The Treasure (`/thetreasure/`)

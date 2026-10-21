@@ -144,6 +144,37 @@
     });
   }
 
+  // ---------------------------------------------------------------- collapsing menu bar
+  // Scrolling down folds the top bar up into a thin black strip as tall as the page's side padding; scrolling up,
+  // reaching the top, hovering the strip or tabbing into the menu unfolds it again.
+  function initMenuBar() {
+    var bar = doc.querySelector(".framer-nps7m0");
+    if (!bar) return;
+    var frame = all(".framer-12yubsj").filter(function (e) { return e.getClientRects().length; })[0];
+    var last = window.scrollY, collapsed = false, ticking = false;
+    function strip() { // the strip is as tall as the left padding of the page
+      var left = frame ? frame.getBoundingClientRect().left : 16;
+      bar.style.setProperty("--menu-strip", Math.max(Math.round(left), 8) + "px");
+    }
+    function set(on) {
+      if (on === collapsed) return;
+      collapsed = on;
+      bar.classList.toggle("is-collapsed", on);
+    }
+    function update() {
+      ticking = false;
+      var y = window.scrollY, dy = y - last;
+      if (y < 80) set(false);
+      else if (dy > 4) set(true);
+      else if (dy < -4) set(false);
+      if (Math.abs(dy) > 4) last = y;
+    }
+    window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    window.addEventListener("resize", strip);
+    bar.addEventListener("focusin", function () { set(false); });
+    strip();
+  }
+
   // ---------------------------------------------------------------- showreel: the YouTube player loads on click
   function initShowreel() {
     all("article[role='presentation']").forEach(function (box) {
@@ -274,6 +305,7 @@
     initParticles();
     initCursor();
     initShowreel();
+    initMenuBar();
     initPopups();
     initAppear();
     initParallax();
