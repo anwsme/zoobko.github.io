@@ -16,10 +16,10 @@ a.framer-qZJOY:hover > :first-child {
   box-shadow: 0 3px 0 4px #000 !important;
   transform: scale(1.05) !important;
 }
-a.framer-MNDWa .framer-1i0291h,
-a.framer-qZJOY .framer-1i0291h { transition: opacity .25s; }
-a.framer-MNDWa:hover .framer-1i0291h,
-a.framer-qZJOY:hover .framer-1i0291h { opacity: 1 !important; box-shadow: 0 3px 0 4px #000 !important; }
+a.framer-MNDWa [data-framer-name="Button"],
+a.framer-qZJOY [data-framer-name="Button"] { transition: opacity .25s; }
+a.framer-MNDWa:hover [data-framer-name="Button"],
+a.framer-qZJOY:hover [data-framer-name="Button"] { opacity: 1 !important; box-shadow: 0 3px 0 4px #000 !important; }
 
 /* The button sits in the middle of the picture / video (the export placed it ~20px low) */
 a.framer-MNDWa [data-framer-name="Button"],
